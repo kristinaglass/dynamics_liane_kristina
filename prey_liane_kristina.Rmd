@@ -1,5 +1,6 @@
 ---
 title: 'Dynamic systems with more than one dependent variable'
+author: "Kristina Glass and Liane Chen"
 output:
   slidy_presentation:
     highlight: pygments
@@ -38,8 +39,51 @@ rprey=0.95, alpha=0.01, eff=0.6,pmort=0.4, K=2000,
 Submit the Rmarkdown that documents
 
 a) your hunting model
+```{r}
+setwd(here::here()) 
+source("lotvmodK_new.R")
+```
 
 b) your exploration (e.g how you tested different hunting levels and how you defined a stability metric
+
+```{r}
+# Parameter values
+pars = list(rprey=0.95, alpha=0.01, eff=0.6, pmort=0.4, K=2000)
+
+# Initial population values
+init_pop = c(prey = 1000, pred = 50)
+
+# Time sequence for simulation
+times = seq(0, 100, by=0.1)
+
+# Function to run simulation and plot results
+run_simulation = function(hunt_prey, hunt_pred, min_prey) {
+  # Update parameters with hunting rates and minimum prey
+  pars$hunt_prey = hunt_prey
+  pars$hunt_pred = hunt_pred
+  pars$min_prey = min_prey
+  
+  # Run the model
+  out = ode(y = init_pop, times = times, func = lotvmodH, parms = pars)
+  
+  # Plot the results
+  matplot(out[, "time"], out[, 2:3], type = "l", xlab = "Time (days)", ylab = "Population",
+          col = c("blue", "red"), lty = 1, lwd = 2)
+  legend("topright", legend = c("Prey", "Predator"), col = c("blue", "red"), lty = 1, lwd = 2)
+}
+
+# Example exploration with different hunting levels and minimum prey populations
+par(mfrow = c(2, 2))
+run_simulation(hunt_prey = 0.01, hunt_pred = 0.02, min_prey = 500)
+title(main = "hunt_prey = 0.01, hunt_pred = 0.02, min_prey = 500")
+run_simulation(hunt_prey = 0.02, hunt_pred = 0.02, min_prey = 500)
+title(main = "hunt_prey = 0.02, hunt_pred = 0.02, min_prey = 500")
+run_simulation(hunt_prey = 0.01, hunt_pred = 0.01, min_prey = 300)
+title(main = "hunt_prey = 0.01, hunt_pred = 0.01, min_prey = 300")
+run_simulation(hunt_prey = 0.02, hunt_pred = 0.01, min_prey = 300)
+title(main = "hunt_prey = 0.02, hunt_pred = 0.01, min_prey = 300")
+```
+
 
 c) provides you estimated sustainable hunting level. and a few sentences justifying this choice 
 
