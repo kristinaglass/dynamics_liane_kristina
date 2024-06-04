@@ -6,10 +6,12 @@
 #' @param pars datatype list  coefficient in Lotka-Voltera pars$rprey, pars$alpha, pars$eff, par$pmort
 #'  \emph{rprey} is growth rate of prey population;
 #'  \emph{eff} is the rate of ingestion of prey by predators
-#'  \emph{alpha} is a interaction coefficient (higher values greater interaction
-#’  \emph{pmort}  mortality rate of predictor population
+#'  \emph{alpha} is a interaction coefficient with higher values greater interaction
+#'  \emph{pmort}  mortality rate of predictor population
+#'  \emph{hunt_prey} is the hunting rate affecting the prey population;
+#'  \emph{hunt_pred} is the hunting rate affecting the predator population
 #' @examples
-#' lotvod(t=1, pop=list(1,2), pop=list(0.5,0.3,0.2,0.2))
+#' lotvmodH(t=1, pop=list(prey=1, pred=2), pars=list(rprey=0.5, alpha=0.3, eff=0.2, pmort=0.2, hunt_prey=0.1, hunt_pred=0.05))
 #'
 #' pars = c(rprey=0.5, alpha=0.3, eff=0.2, pmort=0.2)
 #' currpop  = c(prey = 1, pred=1)
